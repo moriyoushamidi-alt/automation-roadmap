@@ -1,39 +1,45 @@
-# # Automation Roadmap — Week 1
+# Automation Roadmap — Week 1
 
-This is Week 1 of a 24-week roadmap to becoming an automation specialist. This week focuses on the Python fundamentals needed before moving into automation tools like n8n.
+Week 1 of a 24-week roadmap to becoming an automation specialist. 
+This week covers Python fundamentals needed before moving into n8n.
+
+## Topics Covered
+
+- Variables, types, and user input
+- Conditionals and comparison operators
+- Loops and the accumulator pattern
+- Functions (parameters, return values)
+- Reading and writing CSV files
+- Working with JSON (dumps/loads/dump/load)
+- Calling REST APIs with `requests`
+- Error handling (status codes and try/except)
+- Git basics (init, commit, push, .gitignore)
 
 ## Files
 
 ### Practice files
-No specific pattern — just for learning core Python concepts.
-- `Hello.py`
-- `intro.py`
-- `practice_day2.py`
-- `variables.py` — introduces what variables mean in Python
+- `intro.py`, `variables.py`, `practice_day2.py` — basic syntax
+- `def_practice*.py` — function exercises
+- `loop_practice*.py` — loop and accumulator exercises
+- `json_practice.py` — JSON conversion
+- `api_practice.py` ... `api5_practice.py` — API calls and error handling
 
-### Functional files
-- `read_CSV.py` — reads and displays the contents of a CSV file
-- `filter_CSV.py` — filters and organizes data from `contacts.CSV` based on the logic written in the code
-- `contacts.CSV` — sample input data (names, emails, messages)
-- `filtered_contacts.csv` — sample output after filtering
+### Functional scripts
+- `filter_CSV.py` — filters contacts by age
+- `contacts_to_json.py` — converts CSV data to JSON
+- `loop_practice6.py` — **Phase 1 final project**: validates contacts and separates valid from invalid records
 
-## How to run
+## Phase 1 Final Project
 
-1. Navigate to this folder in PowerShell:
+Reads `contacts.CSV`, validates each record (name must not be empty, 
+email must contain "@"), saves valid records to `valid_contacts.json`, 
+and reports counts.
 
-cd path\to\week01
+Run with:
 
+    python loop_practice6.py
 
-2. Activate the virtual environment:
+Output:
 
-.\venv\Scripts\Activate.ps1
-
-
-3. Run the CSV filter script:
-
-python filter_CSV.py
-
-
-## Workflow
-
-`read_CSV.py` reads the raw data from `contacts.CSV`. `filter_CSV.py` then applies filtering logic and produces `filtered_contacts.csv` as the cleaned/filtered output.
+    valid: 3
+    invalid: 2
