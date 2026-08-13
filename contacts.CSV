@@ -2,3 +2,5 @@ name,email,age
 Sara,sara@example.com,25
 Ali,ali@example.com,30
 Reza,reza@example.com,22
+,noname@example.com,40
+Maryam,not-an-email,28
