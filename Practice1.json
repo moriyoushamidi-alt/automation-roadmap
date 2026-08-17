@@ -1,0 +1,97 @@
+{
+  "name": "Practice1",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -544,
+        -32
+      ],
+      "id": "9711254f-3851-4542-9bcf-7cf1b1ef23e0",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "url": "https://api.github.com/users/this-user-does-not-exist-12345",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.5,
+      "position": [
+        -320,
+        -32
+      ],
+      "id": "094a38be-8494-4daf-9014-e09999ede98e",
+      "name": "HTTP Request",
+      "retryOnFail": true,
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "2c314b97-8573-4f3b-aeac-c8f785d0e04e",
+              "name": "alert_message",
+              "value": "Something went wrong with the API request",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.5,
+      "position": [
+        -96,
+        80
+      ],
+      "id": "12451ec2-0229-4fde-b4bf-672b56d3cb9c",
+      "name": "Edit Fields"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false,
+    "timeSavedMode": "fixed",
+    "errorWorkflow": "Azw5Lkqle5eAGhYb",
+    "callerPolicy": "workflowsFromSameOwner"
+  },
+  "versionId": "582cb21f-ace1-43b7-aff3-b7ff0108ade7",
+  "meta": {
+    "instanceId": "74cb61c7d43d020bac59d66a710edaaeca8df5bec13eb17854f5411b8a7b61aa"
+  },
+  "nodeGroups": [],
+  "id": "P3dKvpvCjMjBjhqK",
+  "tags": []
+}

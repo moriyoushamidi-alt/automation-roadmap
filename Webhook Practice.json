@@ -1,0 +1,292 @@
+{
+  "name": "Webhook Practice",
+  "nodes": [
+    {
+      "parameters": {
+        "path": "bc4f37fd-a860-46e1-8a39-32ab3fb553e2",
+        "authentication": "headerAuth",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "74cc2b82-8115-466e-999c-9865a2b67726",
+      "name": "Webhook",
+      "webhookId": "bc4f37fd-a860-46e1-8a39-32ab3fb553e2",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "XX5Xvf45WGfYXLBU",
+          "name": "Test API Key"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "732eaeab-cf75-4f67-b9e1-3b81e2772905",
+              "name": "greeting",
+              "value": "=Hello {{ $('Webhook').item.json.query.name }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.5,
+      "position": [
+        912,
+        -96
+      ],
+      "id": "aef8f998-a439-4c89-a57b-946923547e95",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "e85e4071-b036-4b18-a562-ccec7c2a4983",
+              "leftValue": "={{ $json.query.city }}",
+              "rightValue": "Tehran",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        448,
+        0
+      ],
+      "id": "97337716-777b-4823-b614-c76c04f795b4",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "jsCode": "const name = $input.first().json.query.name;\nconst city = $input.first().json.query.city;\n\nreturn [{\n  json: {\n    full_info: `${name} - ${city}` ,\n    name_length : name.length\n  }\n}]"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        672,
+        -96
+      ],
+      "id": "e8d87f90-18d8-4203-a2ea-354ca12d8e30",
+      "name": "Code in JavaScript"
+    },
+    {
+      "parameters": {
+        "operation": "removeItemsSeenInPreviousExecutions",
+        "dedupeValue": "={{ $json.query.name }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.removeDuplicates",
+      "typeVersion": 2,
+      "position": [
+        224,
+        0
+      ],
+      "id": "7c2b5ba5-f86c-4e03-8765-c69d1b1fe662",
+      "name": "Remove Duplicates"
+    },
+    {
+      "parameters": {
+        "schema": {
+          "__rl": true,
+          "mode": "list",
+          "value": "public"
+        },
+        "table": {
+          "__rl": true,
+          "value": "error_logs",
+          "mode": "list",
+          "cachedResultName": "error_logs"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "correlation_id": "={{ $json.correlation_id }}",
+            "level": "ERROR",
+            "flow_name": "Lead Intake",
+            "message": "Invalid lead data",
+            "received_data": "={{ JSON.stringify($json.query) }}"
+          },
+          "matchingColumns": [
+            "id"
+          ],
+          "schema": [
+            {
+              "id": "id",
+              "displayName": "id",
+              "required": false,
+              "defaultMatch": true,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "correlation_id",
+              "displayName": "correlation_id",
+              "required": true,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "level",
+              "displayName": "level",
+              "required": true,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "flow_name",
+              "displayName": "flow_name",
+              "required": true,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "message",
+              "displayName": "message",
+              "required": true,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "received_data",
+              "displayName": "received_data",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "object",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "created_at",
+              "displayName": "created_at",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "dateTime",
+              "canBeUsedToMatch": true,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.7,
+      "position": [
+        672,
+        112
+      ],
+      "id": "bfe5fab8-a3e2-457d-a987-3a1cddfae148",
+      "name": "Insert rows in a table",
+      "credentials": {
+        "postgres": {
+          "id": "oTMw6PNXHOyTtDwf",
+          "name": "Postgres account 2"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Remove Duplicates",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Insert rows in a table",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Remove Duplicates": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "versionId": "a551aa3a-5aa2-496c-a5c5-01beec23525b",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "74cb61c7d43d020bac59d66a710edaaeca8df5bec13eb17854f5411b8a7b61aa"
+  },
+  "nodeGroups": [],
+  "id": "vuuaNAFTdO7am83P",
+  "tags": []
+}
